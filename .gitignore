@@ -1,0 +1,11 @@
+venv
+
+DVS_config.json
+
+deposit_validator_system/__pycache__
+api/__pycache__
+core/__pycache__
+
+api/migrations
+
+*.sqlite3
