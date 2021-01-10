@@ -15,7 +15,7 @@ import json
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
-CONFIG_PATH = "/media/newbateni/uni_com/fanaba/Dev/fws/config.json"
+CONFIG_PATH = "/media/newbateni/uni_com/fanaba/Dev/DVS/DVS_config.json"
 
 with open(CONFIG_PATH) as f:
     config = json.load(f)

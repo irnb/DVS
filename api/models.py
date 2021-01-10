@@ -30,11 +30,19 @@ class Tron_Transaction(models.Model):
     txid = models.CharField(max_length=256, null=True)
 
 
+class USDT_Transaction(models.Model):
+    blockNumber = models.CharField(max_length=128)
+    sender_address = models.CharField(max_length=256, null=True)
+    reciver_address = models.CharField(max_length=256, null=True)
+    amount = models.CharField(max_length=128)
+    txid = models.CharField(max_length=256, null=True)
+
 class Block_Number(models.Model):
     id_for_filter_object = models.IntegerField()
     trx = models.IntegerField()
     eth = models.IntegerField()
     btc = models.IntegerField()
+    usdt = models.IntegerField()
 
 
 class hook_pre_send(models.Model):

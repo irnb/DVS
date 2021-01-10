@@ -1,0 +1,2 @@
+1- get latest block for every network with siutable api (btc,eth,trx)
+2- 
