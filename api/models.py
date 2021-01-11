@@ -30,7 +30,21 @@ class Tron_Transaction(models.Model):
     txid = models.CharField(max_length=256, null=True)
 
 
-class USDT_Transaction(models.Model):
+class USDT_eth_Transaction(models.Model):
+    blockNumber = models.CharField(max_length=128)
+    sender_address = models.CharField(max_length=256, null=True)
+    reciver_address = models.CharField(max_length=256, null=True)
+    amount = models.CharField(max_length=128)
+    txid = models.CharField(max_length=256, null=True)
+
+class USDT_trx_Transaction(models.Model):
+    blockNumber = models.CharField(max_length=128)
+    sender_address = models.CharField(max_length=256, null=True)
+    reciver_address = models.CharField(max_length=256, null=True)
+    amount = models.CharField(max_length=128)
+    txid = models.CharField(max_length=256, null=True)
+
+class DAI_eth_Transaction(models.Model):
     blockNumber = models.CharField(max_length=128)
     sender_address = models.CharField(max_length=256, null=True)
     reciver_address = models.CharField(max_length=256, null=True)
@@ -42,8 +56,9 @@ class Block_Number(models.Model):
     trx = models.IntegerField()
     eth = models.IntegerField()
     btc = models.IntegerField()
-    usdt = models.IntegerField()
-
+    usdt_eth = models.IntegerField()
+    dai_eth = models.IntegerField()
+    usdt_trx = models.IntegerField()
 
 class hook_pre_send(models.Model):
     data = JSONField(null=True)
@@ -54,6 +69,7 @@ class block_save(models.Model):
         ("bitcoin", "bitcoin"),
         ("ethereum", "ethereum"),
         ("tron", "tron"),
+        ("usdt_eth", "usdt_eth")
     )
 
     block_height = models.CharField(max_length=50, null=False)
@@ -94,7 +110,15 @@ def serialize_hook(transaction, system):
             'reciver_address': transaction.reciver_address,
             'amount': transaction.amount,
         }
-
+    if system == 'usdt_eth':
+        return {
+            'status': 'confirmed',
+            'system': 'eth',
+            'txid': transaction.txid,
+            'sender_address': transaction.sender_address,
+            'reciver_address': transaction.reciver_address,
+            'amount': transaction.amount,
+        }
 
 def send_hook(system, block_height):
     try:
@@ -124,7 +148,30 @@ def send_hook(system, block_height):
 
             except Exception as e:
                 print(e)
+        elif system == 'usdt_eth':
+            try:
+                system0 = 'eth'
+                transactions = USDT_eth_Transaction.objects.filter(
+                    blockNumber=block_height)
 
+            except Exception as e:
+                print(e)
+        elif system == 'dai_eth':
+            try:
+                system0 = 'eth'
+                transactions = USDT_eth_Transaction.objects.filter(
+                    blockNumber=block_height)
+
+            except Exception as e:
+                print(e)
+        elif system == 'usdt_trx':
+            try:
+                system0 = 'trx'
+                transactions = USDT_eth_Transaction.objects.filter(
+                    blockNumber=block_height)
+
+            except Exception as e:
+                print(e)
         for transaction in transactions:
             print(transaction.reciver_address)
             hooks = Subscribe_table.objects.filter(

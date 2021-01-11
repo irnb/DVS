@@ -1,4 +1,5 @@
-from django_cron import CronJobBase , Schedule
+from django_cron import CronJobBase
+from django_cron import Schedule
 
 from api.models import block_save
 from api.models import bitcoin_transaction
@@ -11,17 +12,20 @@ from core.help_config import CONFIG_PATH
 with open('/etc/DVS-config.json') as f:
     config = json.load(f)
 
+
 class GetBTCBlock(CronJobBase):
     RUN_EVERY_MINS = 5
 
     schedule = Schedule(run_every_mins=RUN_EVERY_MINS)
-    code = 'get_btc_transaction'    
+    code = 'get_btc_transaction'
 
     def do(self):
         start()
 
+
 def start():
-    current_blocknum_obj = Block_Number.objects.filter(id_for_filter_object=0)[0]
+    current_blocknum_obj = Block_Number.objects.filter(
+        id_for_filter_object=0)[0]
     current_blocknum = current_blocknum_obj.btc
 
     last_blocknum = requests.get(config["bitcoin_api_lastBlockNumber_url"])
@@ -31,7 +35,8 @@ def start():
 
     while (confirm_acceptable_block_num > current_blocknum):
         try:
-            response = requests.get(config["bitcoin_api_getBlockByNumber_url"]+str(current_blocknum))
+            response = requests.get(
+                config["bitcoin_api_getBlockByNumber_url"]+str(current_blocknum))
             print(response)
             for transaction in response.json()['tx']:
                 transaction_hash = transaction['hash']
@@ -49,21 +54,23 @@ def start():
                     tr = bitcoin_transaction()
                     tr.blockNumber = current_blocknum
                     tr.reciver_address = output["addr"]
-                    tr.sender_addresses= input_addr
+                    tr.sender_addresses = input_addr
                     tr.txid = transaction_hash
                     tr.amount = output["value"]
                     tr.save()
 
-            block = block_save(block_height=str(current_blocknum), system='bitcoin')
+            block = block_save(block_height=str(
+                current_blocknum), system='bitcoin')
             block.save()
 
             current_blocknum_obj.btc = current_blocknum_obj.btc + 1
             current_blocknum_obj.save()
             try:
-                bitcoin_transaction.objects.filter(blockNumber=current_blocknum-1).delete()
+                bitcoin_transaction.objects.filter(
+                    blockNumber=current_blocknum-6).delete()
                 current_blocknum = current_blocknum + 1
             except Exception as e:
                 print(e)
-                print('cant delete block number{}'.format(current_blocknum ))
+                print('cant delete block number{}'.format(current_blocknum))
         except Exception as e:
             print(e)
