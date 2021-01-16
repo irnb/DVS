@@ -70,7 +70,7 @@ class block_save(models.Model):
         ("ethereum", "ethereum"),
         ("tron", "tron"),
         ("usdt_eth", "usdt_eth"),
-        ("usdt_dai", "usdt_dai"),
+        ("dai_eth", "dai_eth"),
         ("usdt_trx", "usdt_trx")
     )
 
@@ -116,6 +116,15 @@ def serialize_hook(transaction, system):
         return {
             'status': 'confirmed',
             'system': 'usdt_eth',
+            'txid': transaction.txid,
+            'sender_address': transaction.sender_address,
+            'reciver_address': transaction.reciver_address,
+            'amount': transaction.amount,
+        }
+    if system == 'dai_eth':
+        return {
+            'status': 'confirmed',
+            'system': 'dai_eth',
             'txid': transaction.txid,
             'sender_address': transaction.sender_address,
             'reciver_address': transaction.reciver_address,
