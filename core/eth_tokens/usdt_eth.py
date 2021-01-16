@@ -61,7 +61,6 @@ def start():
         succsses = True
 
         try:
-
             for transaction in transfer_data:
 
                 value = transaction['args']['value'] / (10 ** config["usdt_eth_decimal"])

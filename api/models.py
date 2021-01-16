@@ -69,7 +69,9 @@ class block_save(models.Model):
         ("bitcoin", "bitcoin"),
         ("ethereum", "ethereum"),
         ("tron", "tron"),
-        ("usdt_eth", "usdt_eth")
+        ("usdt_eth", "usdt_eth"),
+        ("usdt_dai", "usdt_dai"),
+        ("usdt_trx", "usdt_trx")
     )
 
     block_height = models.CharField(max_length=50, null=False)
@@ -113,7 +115,16 @@ def serialize_hook(transaction, system):
     if system == 'usdt_eth':
         return {
             'status': 'confirmed',
-            'system': 'eth',
+            'system': 'usdt_eth',
+            'txid': transaction.txid,
+            'sender_address': transaction.sender_address,
+            'reciver_address': transaction.reciver_address,
+            'amount': transaction.amount,
+        }
+    if system == 'usdt_trx':
+        return {
+            'status': 'confirmed',
+            'system': 'usdt_trx',
             'txid': transaction.txid,
             'sender_address': transaction.sender_address,
             'reciver_address': transaction.reciver_address,
@@ -148,6 +159,7 @@ def send_hook(system, block_height):
 
             except Exception as e:
                 print(e)
+
         elif system == 'usdt_eth':
             try:
                 system0 = 'eth'
