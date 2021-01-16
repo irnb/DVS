@@ -83,7 +83,7 @@ def start():
             print('******new block saved******')
 
             block = block_save(block_height=str(
-                current_blocknum), system='usdt')
+                current_blocknum), system='usdt_eth')
 
             block.save()
 

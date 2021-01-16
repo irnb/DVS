@@ -25,7 +25,7 @@ class GetDaiBlock(CronJobBase):
     RUN_EVERY_MINS = 1/4
 
     schedule = Schedule(run_every_mins=RUN_EVERY_MINS)
-    code = 'get_usdt_transaction'    # a unique code for
+    code = 'get_dai_usdt_transaction'    # a unique code for
 
     def do(self):
         start()
@@ -84,7 +84,7 @@ def start():
             print('******new block saved******')
 
             block = block_save(block_height=str(
-                current_blocknum), system='usdt')
+                current_blocknum), system='dai_eth')
 
             block.save()
 

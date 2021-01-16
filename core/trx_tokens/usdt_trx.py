@@ -26,7 +26,7 @@ class GetTRXBlock(CronJobBase):
     RUN_EVERY_MINS = 1/12
 
     schedule = Schedule(run_every_mins=RUN_EVERY_MINS)
-    code = 'get_trx_transaction'
+    code = 'get_usdt_trx_transaction'
 
     def do(self):
         start()
@@ -80,7 +80,7 @@ def start():
                 blockNumber=current_block).delete()
         if succsses:
             print('******new block saved******')
-            block = block_save(block_height=str(current_block), system='tron')
+            block = block_save(block_height=str(current_block), system='usdt_trx')
             block.save()
 
             current_blocknum_obj.trx = current_blocknum_obj.trx + 1

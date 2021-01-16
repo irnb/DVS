@@ -1,10 +1,12 @@
 from django_cron import CronJobBase, Schedule
 from api.models import hook_pre_send
-import requests
 
+import requests
 import json
 
-with open('/etc/DVS-config.json') as f:
+from core.help_config import CONFIG_PATH
+
+with open(CONFIG_PATH) as f:
     config = json.load(f)
 class SendHooks(CronJobBase):
     RUN_EVERY_MINS = 1/10
