@@ -20,13 +20,14 @@ class SendHooks(CronJobBase):
 def start():
 
     try:
-        hook_save = hook_pre_send.objects.all()
+        hook_save = hook_pre_send.objects.filter(is_send=False)
         for hook in hook_save:
             url = config["general_backend_url_for_webhook_callback"]
             data = hook.data
             res = requests.post(url=url, data=data)
             print(data , res.status_code)
             if res.status_code == 200:
-                hook.delete()
+                hook.is_send = True
+                hook.save()
     except:
         pass

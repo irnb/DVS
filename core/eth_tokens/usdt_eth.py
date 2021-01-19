@@ -66,7 +66,7 @@ def start():
                 value = transaction['args']['value'] / (10 ** config["usdt_eth_decimal"])
                 value = str(value)
 
-                tr = USDT_eth_Transaction
+                tr = USDT_eth_Transaction()
                 tr.blockNumber = current_blocknum
                 tr.reciver_address = transaction['args']['to']
                 tr.sender_address = transaction['args']['from']

@@ -9,7 +9,7 @@ import requests
 import json
 
 from core.help_config import CONFIG_PATH
-with open('/etc/DVS-config.json') as f:
+with open(CONFIG_PATH) as f:
     config = json.load(f)
 
 

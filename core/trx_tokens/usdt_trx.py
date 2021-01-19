@@ -8,10 +8,9 @@ from api.models import Block_Number
 import requests
 import json
 
-from tronapi import Tron
-from tronapi import HttpProvider
 
 from core.help_config import CONFIG_PATH
+from core.help_config import from_hex
 
 with open(CONFIG_PATH) as f:
     config = json.load(f)
@@ -19,7 +18,7 @@ with open(CONFIG_PATH) as f:
 tron_api_getBlockByNumber_url = config["tron_api_getBlockByNumber_url"]
 
 
-tron = Tron()
+
 
 
 class GetTRXBlock(CronJobBase):
@@ -58,17 +57,16 @@ def start():
             for transaction in current_block["transactions"]:
                 if transaction["raw_data"]["contract"][0]["type"] == "TriggerSmartContract":
                     if transaction["ret"][0]["contractRet"] == "SUCCESS":
-                        if tron.address.from_hex(transaction["contract"][0]["contract_address"]) == config["usdt_trx_contract_address"]:
+                        if from_hex(transaction["contract"][0]["contract_address"]) == config["usdt_trx_contract_address"]:
                             txid = transaction["txID"]
-                            data = tron.get_event_transaction_id(txid)
+                            data = json.loads(requests.get(config["tron_get_event_api"]+txid).text)
                             data = data[0]
                             tr = USDT_trx_Transaction()
                             tr.blockNumber = current_block["block_header"]['raw_data']['number']
-                            tr.sender_address = str(tron.address.from_hex(
+                            tr.sender_address = str(from_hex(
                                 transaction["raw_data"]["contract"][0]["parameter"]["value"]["owner_address"]))[2:-1]
-                            tr.reciver_address = str(tron.address.from_hex(
+                            tr.reciver_address = str(from_hex(
                                 str(41)+data['result']['to'][2:]))[2:-1]
-
                             tr.txid = transaction["txID"]
                             tr.amount = int(data['result']['value'])/10 ** config["usdt_trx_decimal"]
                             tr.save()

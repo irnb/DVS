@@ -15,7 +15,7 @@ import json
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
-CONFIG_PATH = "/media/newbateni/uni_com/fanaba/Dev/DVS/DVS_config.json"
+CONFIG_PATH = "/media/hamid/uni_com/fanaba/Dev/DVS/DVS_config.json"
 
 with open(CONFIG_PATH) as f:
     config = json.load(f)
@@ -41,8 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "rest_framework",
-    "rest_framework_api_key"
+    'django_cron',
+    'rest_framework',
+    'rest_framework_api_key',
+    'api'
 ]
 
 MIDDLEWARE = [
@@ -75,7 +77,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'deposit_validator_system.wsgi.application'
 
-
+# CronJob
+CRON_CLASSES = [
+    "core.btc.GetBTCBlock",
+    "core.eth.GetETHBlock",
+    "core.trx.GetTRXBlock",
+    "core.send_hooks.SendHooks",
+    "core.eth_tokens.dai_eth.GetDaiBlock",
+    "core.eth_tokens.usdt_eth.GetUSDTBlock",
+    "core.trx_tokens.usdt_trx.GetTRXBlock"
+]
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 

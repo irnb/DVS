@@ -62,6 +62,7 @@ class Block_Number(models.Model):
 
 class hook_pre_send(models.Model):
     data = JSONField(null=True)
+    is_send = models.BooleanField(default=False)
 
 
 class block_save(models.Model):

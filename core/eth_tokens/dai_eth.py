@@ -2,7 +2,7 @@ from django_cron import CronJobBase
 from django_cron import Schedule
 
 from api.models import Block_Number
-from api.models import USDT_Transaction
+from api.models import DAI_eth_Transaction
 from api.models import block_save
 
 from core.help_config import CONFIG_PATH
@@ -67,7 +67,7 @@ def start():
                 value = transaction['args']['wad'] / (10 ** config["dai_eth_decimal"])
                 value = str(value)
 
-                tr = USDT_Transaction
+                tr = DAI_eth_Transaction()
                 tr.blockNumber = current_blocknum
                 tr.reciver_address = transaction['args']['dst']
                 tr.sender_address = transaction['args']['src']
@@ -77,7 +77,7 @@ def start():
         except Exception as e:
             succsses = False
             print("we failed to load raw block")
-            USDT_Transaction.objects.filter(
+            DAI_eth_Transaction.objects.filter(
                 blockNumber=current_blocknum).delete()
 
         if succsses :
@@ -93,7 +93,7 @@ def start():
             current_blocknum = current_blocknum + 1
             try:
                 print('delete block {} start'.format(current_blocknum))
-                USDT_Transaction.objects.filter(
+                DAI_eth_Transaction.objects.filter(
                     blockNumber=current_blocknum-20).delete()
                 print('block number {} deleted'.format(current_blocknum))
             except:

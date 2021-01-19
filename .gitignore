@@ -11,3 +11,4 @@ api/migrations
 *.sqlite3
 core/eth_tokens/__pycache__
 core/trx_tokens/__pycache__
+
