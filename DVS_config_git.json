@@ -1,0 +1,20 @@
+{
+    "django_secret":"",
+    "bitcoin_api_getBlockByNumber_url" : "",
+    "bitcoin_api_lastBlockNumber_url" : "",
+    "tron_api_getBlockByNumber_url":"",
+    "etherscan_apikey": "",
+    "ethereum_api_getBlockByNumber_url" : "",
+    "ethereum_api_lastBlockNumber_url" : "",
+    "tron_api_lastBlockNumber_url" : "",
+    "usdt_eth_contract_address" : "",
+    "usdt_eth_decimal" : "",
+    "eth_node":"",
+    "dai_eth_contract_address" : "",
+    "dai_eth_decimal" : "",
+    "TRX_http_provider": "",
+    "usdt_trx_contract_address" : "",
+    "usdt_trx_decimal" : "",
+    "general_backend_url_for_webhook_callback":"",
+    "tron_get_event_api":""
+}
