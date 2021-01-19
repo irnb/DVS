@@ -14,5 +14,7 @@
     "dai_eth_decimal" : "",
     "TRX_http_provider": "",
     "usdt_trx_contract_address" : "",
-    "usdt_trx_decimal" : ""
+    "usdt_trx_decimal" : "",
+    "general_backend_url_for_webhook_callback":"",
+    "tron_get_event_api":""
 }
